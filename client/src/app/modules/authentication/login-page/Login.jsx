@@ -15,15 +15,15 @@ import { useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import toaster from "../../../../utility/toaster/toaster";
+import { postRequest } from "../../../../services/axios-api-request/axios_api_Request";
 
 export default function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('')
+  const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [remeberMe, setRememberMe] = useState(false)
-  const loginCredentials = { email: "xyz@123.com", password: "123456" }
-  let credentials = { email, password };
+  let credentials = { userName, password };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -31,27 +31,38 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (loginCredentials.email === credentials.email && loginCredentials.password === credentials.password) {
-      if (remeberMe) {
-        const json = JSON.stringify(credentials)
-        const enCodedJson = encodeURIComponent(json)
-        const date = new Date()
-        date.setTime(date.getTime() + 30 * 24 * 24 * 60 * 1000);
-        const expire = "expire=" + date.toUTCString();
-        document.cookie = `rememberMe= ${enCodedJson}`
-        document.cookie = expire;
+    try {
+      const {data} = await postRequest('api/auth/userLogin',{userName,password})
+      if (data.results.statusCode === 200) {
+        if (remeberMe) {
+          const json = JSON.stringify(credentials)
+          const enCodedJson = encodeURIComponent(json)
+          const date = new Date()
+          date.setTime(date.getTime() + 30 * 24 * 24 * 60 * 1000);
+          const expire = "expire=" + date.toUTCString();
+          document.cookie = `rememberMe= ${enCodedJson}`
+          document.cookie = expire;
+        }
+  
+        localStorage.setItem('token', JSON.stringify(credentials));
+        toaster('success',data.results.message)
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+  
+      } else {
+        toaster('error',data.results.message)
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       }
-
-      localStorage.setItem('user', JSON.stringify(credentials));
-      toaster('success','Login Successful.')
+    } catch (error) {
+      toaster('error','Some error occured!')
       setTimeout(() => {
         navigate("/");
-      }, 1500);
-
-    } else {
-      toaster('error','Invalid credentials!')
+      }, 1000);
     }
   }
 
@@ -63,8 +74,8 @@ export default function Login() {
       const encodedJson = isUserData.split('rememberMe=')[1];
       const decodedJson = decodeURIComponent(encodedJson);
       const userDetail = JSON.parse(decodedJson);
-      const { email, password } = userDetail;
-      setEmail(email);
+      const { userName, password } = userDetail;
+      setUserName(userName);
       setPassword(password);
     }
   }, [])
@@ -80,24 +91,21 @@ export default function Login() {
                   <h2>Login</h2>
                 </Grid>
                 <Grid className="form-field">
-                  <label className="form-label" htmlFor="email-form-control">Email:</label>
                   <TextField
                     required
-                    name="email"
-                    value={email ?? ""}
-                    id="email-form-control"
-                    placeholder="Enter email"
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="userName"
+                    value={userName ?? ""}
+                    id="userName-form-control"
+                    placeholder="Enter User Name"
+                    onChange={(e) => setUserName(e.target.value)}
                   />
                 </Grid>
 
                 <Grid className="form-field">
-                  <label className="form-label" htmlFor="password-form-control">Password:</label>
                   <FormControl
                     id="password-form-control"
                     variant="outlined"
                   >
-
                     <OutlinedInput
                       name="password"
                       placeholder="Enter password"
@@ -126,7 +134,7 @@ export default function Login() {
                 </Grid>
                 <Grid className="form-button">
                   <Button type="submit" variant="contained" size="large" disabled={
-                    !email ||
+                    !userName ||
                     !password
                   }>Login</Button>
                   <p>No account? <span onClick={() => navigate('/signup')}>Signup</span></p>

@@ -11,8 +11,8 @@
 
     .login-form-container {
         border-radius: 0.5rem;
-        width: 700px;
-        min-height: 500px;
+        width: 500px;
+        min-height: 400px;
         background-color: $--white-color;
         padding: 1rem 0.5rem 3rem 0.5rem;
 
@@ -32,12 +32,13 @@
             .form-heading {
                 display: flex;
                 justify-content: center;
+                padding: 2rem;
             }
 
 
             .form-field {
                 display: flex;
-                height: 8rem;
+                height: 5rem;
                 flex-direction: column;
                 padding: 0.8rem 1rem 0 1rem;
 
@@ -92,6 +93,7 @@
                 span {
                     color: $--primary-color;
                     cursor: pointer;
+                    font-size: 1.4rem;
                 }
 
             }

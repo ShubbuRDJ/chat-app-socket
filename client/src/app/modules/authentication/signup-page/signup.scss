@@ -11,8 +11,8 @@
 
     .signup-form-container {
         border-radius: 0.5rem;
-        width: 700px;
-        min-height: 500px;
+        width: 600px;
+        min-height: 600px;
         background-color: $--white-color;
         padding: 1rem 0.5rem 3rem 0.5rem;
         
@@ -30,6 +30,7 @@
 
 
             .form-heading {
+                padding: 2rem;
                 display: flex;
                 justify-content: center;
             }
@@ -37,7 +38,7 @@
 
             .form-field {
                 display: flex;
-                height: 8rem;
+                height: 5rem;
                 flex-direction: column;
                 padding: 0.8rem 1rem 0 1rem;
 
@@ -73,14 +74,28 @@
                 @media screen and (max-width: $medium) {
                     display: flex;
                     flex-direction: column;
-                  }
+
+                    p{
+                        padding: 1rem;
+                    }
+                }
+                @media screen and (max-width: $small) {
+                    display: flex;
+                    flex-direction: column;
+                    span{
+                        display: flex;
+                        justify-content: center;padding-top: 10px;
+                    }
+                    
+                }
 
                 p{
                     font-weight: 200;
 
                     span{
                         color: $--primary-color;
-                        font-weight: 500;
+                        font-weight: 600;
+                        font-size: 1.4rem;
                         cursor: pointer;
                     }
                 }

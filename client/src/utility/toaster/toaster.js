@@ -8,18 +8,22 @@ import 'react-toastify/dist/ReactToastify.css';
 // 1. import { ToastContainer } from 'react-toastify';
 // 2. <ToastContainer/>
 
+const toastOption = {
+  theme:'dark',
+}
+
 export default function toaster(type,message) {
   const lowerCaseType = type.toLowerCase();
   if(lowerCaseType==='error'){
-    return toast.error(message);
+    return toast.error(message,toastOption);
   } else if(lowerCaseType==='warning'){
-    return toast.warn(message);
+    return toast.warn(message,toastOption);
   }
   else if(lowerCaseType==='success'){
-    return toast.success(message);
+    return toast.success(message,toastOption);
   }
   else if(lowerCaseType==='info'){
-    return toast.info(message);
+    return toast.info(message,toastOption);
   }
   else{
     console.log("some error occured in toaster utility")

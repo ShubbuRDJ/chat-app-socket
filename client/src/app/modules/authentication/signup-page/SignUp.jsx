@@ -15,11 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { signUpSchema } from "../../../../services/yup-validation-schemas";
 import toaster from "../../../../utility/toaster/toaster";
+import { postRequest } from "../../../../services/axios-api-request/axios_api_Request";
 
 
 const initialValues = {
-    firstName: "",
-    lastName: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -49,13 +49,29 @@ export default function SignUp() {
     };
 
 
-    const handleSignUp = (credentials) => {
-        const { confirmPassword, ...data } = credentials;
-        console.log(data);
-        toaster('success','Signup successful.')
-        setTimeout(() => {
-            navigate("/login");
-        }, 1500);
+    const handleSignUp = async (credentials) => {
+        const { confirmPassword, ...credentialData } = credentials;
+        try {
+            const { data } = await postRequest('api/auth/userRegister', credentialData)
+            if (data.results.statusCode === 201) {
+                toaster('success', data.results.message)
+                setTimeout(() => {
+                    navigate("/login");
+                }, 1500);
+            }
+            else{
+                toaster('error', data.results.message)
+                setTimeout(() => {
+                    navigate("/login");
+                }, 1500);
+            }
+
+        } catch (error) {
+            toaster('error', "Some error occured")
+            setTimeout(() => {
+                navigate("/login");
+            }, 1500);
+        }
     }
 
     return (
@@ -68,40 +84,22 @@ export default function SignUp() {
                                 <Grid className="form-heading">
                                     <h2>Signup</h2>
                                 </Grid>
+
                                 <Grid className="form-field">
-                                    <label className="form-label" htmlFor="email-form-control1">First Name:</label>
                                     <TextField
-                                        required
-                                        name="firstName"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.firstName}
-                                        id="email-form-control1"
-                                        placeholder="Enter First Name "
-                                    />
-                                {errors.firstName && touched.firstName ? (
-                                    <p className="form-error">{errors.firstName}</p>
-                                ) : null}
-                                </Grid>
-                                <Grid className="form-field">
-                                    <label className="form-label" htmlFor="email-form-control2">Last Name:</label>
-                                    <TextField
-                                        required
-                                        name="lastName"
+                                        name="userName"
                                         id="email-form-control2"
-                                        placeholder="Enter Last Name"
+                                        placeholder="Enter User Name"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.lastName}
+                                        value={values.userName}
                                     />
-                                {errors.lastName && touched.lastName ? (
-                                    <p className="form-error">{errors.lastName}</p>
-                                ) : null}
+                                    {errors.userName && touched.userName ? (
+                                        <p className="form-error">{errors.userName}</p>
+                                    ) : null}
                                 </Grid>
                                 <Grid className="form-field">
-                                    <label className="form-label" htmlFor="email-form-control3">Email:</label>
                                     <TextField
-                                        required
                                         name="email"
                                         id="email-form-control3"
                                         placeholder="Enter email"
@@ -109,13 +107,12 @@ export default function SignUp() {
                                         onBlur={handleBlur}
                                         value={values.email}
                                     />
-                                {errors.email && touched.email ? (
-                                    <p className="form-error">{errors.email}</p>
-                                ) : null}
+                                    {errors.email && touched.email ? (
+                                        <p className="form-error">{errors.email}</p>
+                                    ) : null}
                                 </Grid>
 
                                 <Grid className="form-field">
-                                    <label className="form-label" htmlFor="password-form-control4">Password:</label>
                                     <FormControl
                                         id="password-form-control4"
                                         variant="outlined"
@@ -142,21 +139,19 @@ export default function SignUp() {
                                             }
                                         />
                                     </FormControl>
-                                {errors.password && touched.password ? (
-                                    <p className="form-error">{errors.password}</p>
-                                ) : null}
+                                    {errors.password && touched.password ? (
+                                        <p className="form-error">{errors.password}</p>
+                                    ) : null}
                                 </Grid>
 
                                 <Grid className="form-field">
-                                    <label className="form-label" htmlFor="password-form-control6">Confirm Password:</label>
                                     <FormControl
                                         id="password-form-control6"
                                         variant="outlined"
                                     >
                                         <OutlinedInput
                                             name="confirmPassword"
-                                            required
-                                            placeholder="Enter password"
+                                            placeholder="Enter Confirm password"
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.confirmPassword}
@@ -176,13 +171,16 @@ export default function SignUp() {
                                             }
                                         />
                                     </FormControl>
-                                {errors.confirmPassword && touched.confirmPassword ? (
-                                    <p className="form-error">{errors.confirmPassword}</p>
-                                ) : null}
+                                    {errors.confirmPassword && touched.confirmPassword ? (
+                                        <p className="form-error">{errors.confirmPassword}</p>
+                                    ) : null}
                                 </Grid>
 
                                 <Grid className="form-button">
-                                    <Button type="submit" size="large" variant="contained">Create Account</Button>
+                                    <Button type="submit" size="large" variant="contained" disabled={
+                                        !values.userName || !values.email ||
+                                        !values.password || !values.confirmPassword
+                                    }>Create Account</Button>
                                     <p>Already have an account? <span onClick={() => navigate(-1)}>Sign in</span></p>
 
                                 </Grid>

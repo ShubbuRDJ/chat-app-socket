@@ -1,12 +1,9 @@
 import * as Yup from "yup";
 
 export const signUpSchema = Yup.object({
-  firstName: Yup.string()
-  .required("Please enter First Name")
-  .matches(/^[A-Za-z]+$/, "First Name sholud be contain only alphabets"),
-lastName: Yup.string()
-  .required("Please enter Last Name")
-  .matches(/^[A-Za-z]+$/, "Last Name sholud be contain only alphabets"),
+  userName: Yup.string().min(3,'UserName should be greater than 3 characters')
+    .required("Please enter UserName")
+    .matches(/^[A-Za-z0-9]+$/, "UserName sholud be contain only alphabets and numbers"),
   email: Yup.string().email().required("Please enter Email"),
   password: Yup.string()
     .min(8)
@@ -20,4 +17,3 @@ lastName: Yup.string()
     .required()
     .oneOf([Yup.ref("password"), null], "Password should be matched"),
 });
-
