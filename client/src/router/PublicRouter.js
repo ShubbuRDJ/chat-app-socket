@@ -11,7 +11,7 @@ export default function PublicRouter() {
             <AuthLayout>
                 <Outlet/>
             </AuthLayout>
-        ):(<Navigate to = "/"/>)
+        ):(<Navigate to = "/setAvatar"/>)
       }
     </>
   )

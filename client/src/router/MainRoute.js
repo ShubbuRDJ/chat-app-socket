@@ -7,8 +7,8 @@ import Welcome from "../app/modules/welcome/Welcome";
 import SignUp from "../app/modules/authentication/signup-page/SignUp";
 import ForgotPassword from "../app/modules/authentication/forgot-password/ForgotPassword";
 import Dashboard from "../app/modules/dashboard/Dashboard";
-import Products from "../app/modules/products/Products";
-import Settings from "../app/modules/settings/Settings";
+import SetAvatar from "../app/modules/avtar/SetAvatar";
+import MainLayout from "../app/layouts/main-layout/MainLayout";
 
 export default function MainRoute() {
   return (
@@ -22,10 +22,9 @@ export default function MainRoute() {
 
       {/* private router  */}
       <Route path="/" element={<PrivateRouter />}>
-        <Route index element={<Welcome />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="products" element={<Products />} />
-        <Route path="settings" element={<Settings />} />
+        <Route index element={<MainLayout><Welcome /></MainLayout>} />
+        <Route path="/setAvatar" element={<SetAvatar />} />
+        <Route path="dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
       </Route>
     </Routes>
   );

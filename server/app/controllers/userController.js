@@ -2,6 +2,7 @@ const { User } = require("../model");
 const bcrypt = require("bcrypt");
 const { create } = require("../services/common");
 const { responseData } = require("../utils/responseData/responseData");
+const jwt = require('jsonwebtoken');
 
 module.exports.userRegister = async (req, res) => {
   try {
@@ -28,14 +29,16 @@ module.exports.userRegister = async (req, res) => {
 module.exports.userLogin = async (req, res) => {
   try {
     const { userName, password } = req.body;
+    const {JWT_SIGNATURE,TOKEN_EXPIRES_IN} = process.env;
     const user = await User.findOne({ userName }).lean();
     const passwordMatch = bcrypt.compareSync(password, user.password);
     if (passwordMatch) {
+      const token  = jwt.sign({id:user._id,email:user.email}, JWT_SIGNATURE, { expiresIn:TOKEN_EXPIRES_IN });
       return res
         .status(200)
         .send(
           responseData.success(
-            null,
+            {token,userId:user._id},
             "Login Successful!",
             200
           )

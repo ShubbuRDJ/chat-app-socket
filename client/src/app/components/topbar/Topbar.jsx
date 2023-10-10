@@ -11,7 +11,7 @@ export default function Topbar({ logoText }) {
 
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     toast.success("Logout successful")
     setTimeout(() => {
       navigate("/login");

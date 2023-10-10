@@ -1,5 +1,5 @@
 import React from "react";
-import MainLayout from "../app/layouts/main-layout/MainLayout";
+// import MainLayout from "../app/layouts/main-layout/MainLayout";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function PrivateRouter() {
@@ -7,9 +7,7 @@ export default function PrivateRouter() {
   return (
     <>
       {isLoggedIn ? (
-        <MainLayout>
           <Outlet />
-        </MainLayout>
       ) : (
         <Navigate to="/login" />
       )}

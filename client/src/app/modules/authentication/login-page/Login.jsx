@@ -34,7 +34,7 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const {data} = await postRequest('api/auth/userLogin',{userName,password})
+      const {data} = await postRequest('api/auth/userLogin',credentials)
       if (data.results.statusCode === 200) {
         if (remeberMe) {
           const json = JSON.stringify(credentials)
@@ -46,10 +46,11 @@ export default function Login() {
           document.cookie = expire;
         }
   
-        localStorage.setItem('token', JSON.stringify(credentials));
+        localStorage.setItem('token', JSON.stringify(data?.results?.data?.token));
+        localStorage.setItem('userId', JSON.stringify(data?.results?.data?.userId));
         toaster('success',data.results.message)
         setTimeout(() => {
-          navigate("/");
+          navigate("/setAvatar");
         }, 1500);
   
       } else {
@@ -65,11 +66,11 @@ export default function Login() {
       }, 1000);
     }
   }
-
+  
   useEffect(() => {
     const cookieDetail = document.cookie;
     const cookie = cookieDetail.split(';')
-    const isUserData = cookie.find(c => c.startsWith('rememberMe'));
+    const isUserData = cookie.find(c => c.includes('rememberMe'));
     if (isUserData) {
       const encodedJson = isUserData.split('rememberMe=')[1];
       const decodedJson = decodeURIComponent(encodedJson);
