@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const { mongoConnect } = require('./app/config');
-const userRoutes = require('./app/routes/userRoute');
+const userAuthRoutes = require('./app/routes/userAuthRoute');
+const userRoutes = require('./app/routes/userRoutes');
 
 
 const app = express();
@@ -10,8 +11,10 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
+// ***************user auth route ******************
+app.use('/api/auth',userAuthRoutes);
 // ***************user route ******************
-app.use('/api/auth',userRoutes);
+app.use('/api/user',userRoutes);
 
 app.get('/',(req,res)=>{
     res.send({server:"Express server setup successfully"})

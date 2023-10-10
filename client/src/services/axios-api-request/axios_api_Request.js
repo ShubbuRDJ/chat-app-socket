@@ -5,6 +5,7 @@ const axiosInstance = axios.create({
     baseURL:'http://localhost:8080/',
     headers:{
         'X-API-KEY':'59116031-3be4-400b-ad5b-cc93fe4f985a',
+        'Authorization':localStorage.getItem('token'),
     },
 })
 

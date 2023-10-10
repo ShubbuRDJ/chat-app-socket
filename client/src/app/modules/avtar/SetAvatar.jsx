@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import toaster from '../../../utility/toaster/toaster';
+import { postRequest } from '../../../services/axios-api-request/axios_api_Request';
 
 export default function SetAvatar() {
     const avatarAPI = 'https://api.dicebear.com/7.x/avataaars/svg?seed=';
@@ -34,8 +35,14 @@ export default function SetAvatar() {
             toaster('error', 'Please select an avatar')
         }
         else{
-            const {userName} = JSON.parse(localStorage.getItem('token'));
-            console.log(userName,"logo user");
+            const {data} = await postRequest('api/user/userSetProfileImage',{avatarImage:avatars[selectedAvatar]});
+            console.log(data,"data from imge set ui");
+            if(data.results.statusCode === 200){
+                toaster('success','Profile image set successfully!')
+                setTimeout(() => {
+                    navigate('/');
+                }, 500);
+            }
         }
     }
 

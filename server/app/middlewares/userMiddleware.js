@@ -46,3 +46,17 @@ module.exports.isValidUserName = async (req,res,next)=>{
         return res.status(500).send(responseData.failure("Internal server error",500))
     }
 }
+module.exports.verifyUserToken = async (req,res,next)=>{
+    const {userName} = req.body
+    try {
+        const isUserName = await User.exists({userName})
+        if(!isUserName){
+            return res.status(400).send(responseData.failure("Sorry, userName not found."));
+        }
+        else{
+            return next();
+        }
+    } catch (error) {
+        return res.status(500).send(responseData.failure("Internal server error",500))
+    }
+}
