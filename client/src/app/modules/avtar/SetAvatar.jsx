@@ -43,6 +43,19 @@ export default function SetAvatar() {
                     navigate('/');
                 }, 500);
             }
+            else if(data.results.statusCode === 401){
+                toaster('error',data.results.message);
+                localStorage.clear();
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1000);
+            }
+            else{
+                toaster('error',data.results.message);
+                setTimeout(() => {
+                    navigate('/');
+                }, 500);
+            }
         }
     }
 

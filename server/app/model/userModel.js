@@ -14,11 +14,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  isAvtarImage: {
+  isAvatarImage: {
     type: Boolean,
     default:false,
   },
-  avtarImage: {
+  avatarImage: {
     type: String,
     default:"",
   },

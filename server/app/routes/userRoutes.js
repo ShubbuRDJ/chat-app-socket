@@ -1,8 +1,8 @@
 const { userSetProfileImage } = require('../controllers/userActionController');
-const { verifyUserToken } = require('../middlewares/userMiddleware');
+const { verifyUserToken, isLoggedIn } = require('../middlewares/userMiddleware');
 
 const router = require('express').Router();
 
-router.post('/userSetProfileImage',verifyUserToken,userSetProfileImage);
+router.post('/userSetProfileImage',verifyUserToken,isLoggedIn,userSetProfileImage);
 
 module.exports = router;

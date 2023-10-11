@@ -3,22 +3,18 @@ import axios from "axios";
 // create axios instance with baseURL and x-Api-key
 const axiosInstance = axios.create({
     baseURL:'http://localhost:8080/',
-    headers:{
-        'X-API-KEY':'59116031-3be4-400b-ad5b-cc93fe4f985a',
-        'Authorization':localStorage.getItem('token'),
-    },
 })
 
 
 // *************** Add a request interceptor *********************
 
-// axiosInstance.interceptors.request.use(function (config) {
-//     const token = localStorage.getItem('ACCESS_TOKEN');
-//     if(token)config.headers.Authorization = `Bearer ${token}`;
-//     return config;
-//   }, function (error) {
-//     return Promise.reject(error);
-//   });
+axiosInstance.interceptors.request.use(function (config) {
+    const token = JSON.parse(localStorage.getItem('token'));
+    if(token)config.headers.Authorization = token;
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+  });
 
 
 // **************function for get request******************** 
