@@ -39,11 +39,14 @@ module.exports.userLogin = async (req, res) => {
         .status(200)
         .send(
           responseData.success(
-            {token,userId:user._id},
+            {token,userId:user._id,isProfileImage:user.isAvatarImage,userName:user.userName,profileImage:user.avatarImage},
             "Login Successful!",
             200
           )
         );
+    }
+    else{
+      return res.status(401).send(responseData.failure("Wrong Login details!", 401));
     }
   } catch (error) {
     return res.status(500).send(responseData.failure("Internal server error!", 500));

@@ -1,0 +1,85 @@
+.contact-container{
+    display: grid;
+    grid-template-rows: 10% 75% 15%;
+    overflow: hidden;
+    background-color: #080420;
+    .brand{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        img{
+            height: 2rem;
+        }
+        h3{
+            color: #fff;
+            text-transform: uppercase;
+        }
+    }
+    .contacts{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: auto;
+        gap: 0.8rem;
+        &::-webkit-scrollbar{
+            width: 0.2rem;
+            &-thumb{
+                background-color: #ffffff39;
+                border-radius: 1rem;
+                width: 0.1rem;
+            }
+        }
+        .contact{
+            background-color: #ffffff39;
+            min-height: 5rem;
+            width: 90%;
+            cursor: pointer;
+            border-radius: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.4rem;
+            transition: 0.5s ease-in-out;
+            .contact-avatar{
+                img{
+                    height: 3rem;
+                }
+            }
+            .contact-userName{
+                h3{
+                    color: #fff;
+                }
+            }
+        }
+        .contact.selected{
+            background-color: #9186f3;
+        }
+    }
+    .current-user{
+        background-color: #0d0d30;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        .current-user-avatar{
+            img{
+                height: 4rem;
+                max-inline-size: 100%;
+            }
+        }
+        .current-user-userName{
+            h2{
+                color: #fff;
+            }
+        }
+        @media screen and (min-width:'720px') and (max-width:'1080px') {
+            gap: 0.5rem;
+            .current-user-userName{
+                h2{
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}

@@ -66,7 +66,6 @@ module.exports.isValidUserName = async (req, res, next) => {
 
 module.exports.verifyUserToken = async (req, res, next) => {
   const authToken = req.headers["authorization"];
-  console.log(authToken, "verifyToken auth token");
   try {
     if (!authToken) {
       return res

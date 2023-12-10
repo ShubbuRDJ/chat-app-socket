@@ -4,6 +4,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 export default function PublicRouter() {
     const isLoggedIn = localStorage.getItem("token");
+    const isProfileImage = JSON.parse(localStorage.getItem('isProfileImage'));
+    console.log(isProfileImage,'ssjjsc')
   return (
     <>
       {
@@ -11,7 +13,7 @@ export default function PublicRouter() {
             <AuthLayout>
                 <Outlet/>
             </AuthLayout>
-        ):(<Navigate to = "/setAvatar"/>)
+        ):(<Navigate to = '/setAvatar'/>)
       }
     </>
   )

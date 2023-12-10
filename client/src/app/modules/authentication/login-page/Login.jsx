@@ -34,7 +34,7 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const {data} = await postRequest('api/auth/userLogin',credentials)
+      const { data } = await postRequest('api/auth/userLogin', credentials)
       if (data.results.statusCode === 200) {
         if (remeberMe) {
           const json = JSON.stringify(credentials)
@@ -45,28 +45,32 @@ export default function Login() {
           document.cookie = `rememberMe= ${enCodedJson}`
           document.cookie = expire;
         }
-  
+
         localStorage.setItem('token', JSON.stringify(data?.results?.data?.token));
         localStorage.setItem('userId', JSON.stringify(data?.results?.data?.userId));
-        toaster('success',data.results.message)
+        localStorage.setItem('isProfileImage', JSON.stringify(data?.results?.data?.isProfileImage));
+        localStorage.setItem('userDetails', JSON.stringify(data?.results?.data));
+        toaster('success', data.results.message)
         setTimeout(() => {
-          navigate("/setAvatar");
+          (data?.results?.data?.isProfileImage) ?
+            navigate("/") :
+            navigate("/setAvatar")
         }, 1500);
-  
+
       } else {
-        toaster('error',data.results.message)
+        toaster('error', data.results.message)
         setTimeout(() => {
           navigate("/");
         }, 1500);
       }
     } catch (error) {
-      toaster('error','Some error occured!')
+      toaster('error', 'Some error occured!')
       setTimeout(() => {
         navigate("/");
       }, 1000);
     }
   }
-  
+
   useEffect(() => {
     const cookieDetail = document.cookie;
     const cookie = cookieDetail.split(';')

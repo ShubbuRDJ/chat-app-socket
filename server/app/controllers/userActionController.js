@@ -26,3 +26,18 @@ module.exports.userSetProfileImage = async (req, res) => {
     return res.status(500).send(responseData.failure("Internal server error!", 500));
   }
 };
+
+module.exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({_id:{$ne:req.params.id}}).select(["email","userName","avatarImage","_id"]);
+    if(users){
+      return res.status(200).send(responseData.success(users,"Data Fatched Successfully!",200));
+    }
+    else{
+      return res.status(404).send(responseData.failure("Users Not Found!", 404));
+    }
+    
+  } catch (error) {
+    return res.status(500).send(responseData.failure("Internal server error!", 500));
+  }
+};
