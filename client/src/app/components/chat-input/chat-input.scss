@@ -1,0 +1,87 @@
+.chat-input-container {
+  display: grid;
+  grid-template-columns: 5% 95%;
+  align-items: center;
+  background-color: #080420;
+  padding: 0 2rem;
+  padding-bottom: 0.3rem;
+  .button-container {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    gap: 1rem;
+    .emoji {
+      position: relative;
+      svg {
+        font-size: 1.5rem;
+        color: #ffff00c8;
+        cursor: pointer;
+      }
+      .EmojiPickerReact {
+        position: absolute;
+        top: -380px;
+        background-color: #080420;
+        box-shadow: 0 5px 10px #9a86f3;
+        border-color: #9186f3;
+        button{
+          
+        }
+        .epr-body {
+          &::-webkit-scrollbar {
+            width: 5px;
+            background-color: #080420;
+            &-thumb {
+              background-color: #9186f3;
+            }
+          }
+        }
+        .epr-search-container {
+          input {
+            background-color: transparent;
+            border-color: #9186f3;
+          }
+        }
+        .epr-emoji-category-label {
+          background-color: #080420;
+        }
+      }
+    }
+  }
+  .input-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 2rem;
+    gap: 2rem;
+    background-color: #ffffff34;
+    input {
+      width: 90%;
+      height: 60%;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      padding-left: 1rem;
+      font-size: 1.2rem;
+      color: #fff;
+      &::selection {
+        background-color: #9186f3;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    button {
+      padding: 0.3rem 2rem;
+      border-radius: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #9a86f3;
+      border: none;
+      svg {
+        font-size: 2rem;
+        color: #fff;
+      }
+    }
+  }
+}
