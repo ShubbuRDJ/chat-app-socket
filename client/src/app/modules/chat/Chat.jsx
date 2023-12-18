@@ -51,7 +51,7 @@ export default function Chat() {
           <Contacts contacts={contacts} changeChat={handleChatChange} currentUser={currentUserDetails} />
           {(currentChat === undefined)?
           <Welcome currentUser={currentUserDetails} />:
-          <ChatContainer currentChatUser={currentChat}/>
+          <ChatContainer currentChatUser={currentChat} currentUser={currentUserDetails}/>
           }
         </Grid>
       </Grid>

@@ -1,3 +1,11 @@
-.message-main-container{
+.chat-messages-main-container{
     height: 80%;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: auto;
+    .message{
+        
+    }
 }
