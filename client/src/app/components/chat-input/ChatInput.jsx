@@ -11,9 +11,11 @@ export default function ChatInput({handleSendMsg}) {
     setshowEmojiPicker(!showEmojiPicker);
   }
   const handleEmojiClick = (emoji)=>{
-    let message = msg;
-    message += emoji.emoji;
-    setMsg(message);
+    let message = msg.trim();
+    if(emoji?.emoji !== '🫦'){
+      message += emoji.emoji;
+      setMsg(message);
+    }
   }
 
   const sendChat = (event)=>{

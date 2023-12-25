@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './message-container.scss';
 import { postRequest } from '../../../services/axios-api-request/axios_api_Request';
 import toaster from '../../../utility/toaster/toaster';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function MessageContainer({ currentChatUser, currentUser }) {
-  const [messages, setMessages] = useState([]);
+export default function MessageContainer({ currentChatUser, currentUser, messages, setMessages }) {
+  const scrollRef = useRef();
 
   const getAllMessages = async () => {
     try {
@@ -15,7 +16,7 @@ export default function MessageContainer({ currentChatUser, currentUser }) {
       if (res?.data?.results?.success) {
         setMessages(res?.data?.results?.data);
       }
-      else{
+      else {
         toaster('error', 'Data not found');
       }
     } catch (error) {
@@ -24,15 +25,21 @@ export default function MessageContainer({ currentChatUser, currentUser }) {
   }
 
   useEffect(() => {
-    getAllMessages();
-  // eslint-disable-next-line
+    if (currentChatUser) {
+      getAllMessages();
+    }
+    // eslint-disable-next-line
   }, [currentChatUser])
+
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({ behaviour: 'smooth' })
+  }, [messages])
   return (
     <div className='chat-messages-main-container'>
       {
-        messages.map((msg,index)=>(
-          <div key={index} className="">
-            <div className={`message ${(msg.fromSelf)?'sended':'recieved'}`}>
+        messages.map((msg) => (
+          <div key={uuidv4()} ref={scrollRef}>
+            <div className={`message ${(msg.fromSelf) ? 'sended' : 'recieved'}`}>
               <div className="content">
                 <p>{msg.message}</p>
               </div>

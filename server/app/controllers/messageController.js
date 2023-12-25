@@ -36,7 +36,7 @@ module.exports.getAllMessages = async (req, res) => {
         }).sort({updatedAt:1});
         const projectMessage = messages?.map((msg)=>{
             return{
-                fromSelf:msg.sender === from,
+                fromSelf:msg.sender.toString() === from,
                 message:msg.message.text,
             }
         });
